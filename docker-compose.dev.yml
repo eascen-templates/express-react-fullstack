@@ -5,9 +5,9 @@ services:
   db:
     image: postgres:16
     environment:
-      - POSTGRES_DB=db_example
-      - POSTGRES_USER=admin_template
-      - POSTGRES_PASSWORD=password_template
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - pg_data:/data/db
     networks:
@@ -21,6 +21,9 @@ services:
       target: development
     restart: unless-stopped
     env_file: ./api/.env
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - APP_ORIGIN=https://${DOMAIN_NAME}
     volumes:
       - ./api:/app
       - /app/node_modules
@@ -30,13 +33,14 @@ services:
       - 4004:4004
     depends_on:
       - db
+    command: sh -c "npm run db:migrate && npm run dev"
 
   client:
     build: 
       context: ./client
       target: development
       args: 
-        VITE_API_URL: https://api.template.localhost
+        VITE_API_URL: https://api.${DOMAIN_NAME}
     restart: unless-stopped
     env_file: ./client/.env
     volumes:

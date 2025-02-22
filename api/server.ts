@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import express from "express";
-import passport, { initialize } from "passport";
+import passport from "passport";
 
 config({ path: ".env" });
 
