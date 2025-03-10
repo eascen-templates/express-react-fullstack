@@ -16,22 +16,24 @@ jobs:
     - name: Login to the Container registry
       uses: docker/login-action@v3
       with: 
-        registry: ghcr.io
+        registry: https://ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GHCR_TOKEN }}
     - name: Build and push Client Docker image
       uses: docker/build-push-action@v6
       with:
         context: ./client
+        target: production
         push: true
-        tags:
-          ghcr.io/eascen/template-image-client:latest,
-          ghcr.io/eascen/template-image-client:${{ github.sha }}
+        tags: |
+          ghcr.io/eascen-templates/template-image-client:latest
+          ghcr.io/eascen-templates/template-image-client:${{ github.sha }}
     - name: Build and push API Docker image
       uses: docker/build-push-action@v6
       with:
         context: ./api
+        target: production
         push: true
-        tags:
-          ghcr.io/eascen/template-image-api:latest,
-          ghcr.io/eascen/template-image-api:${{ github.sha }}
+        tags: |
+          ghcr.io/eascen-templates/template-image-api:latest
+          ghcr.io/eascen-templates/template-image-api:${{ github.sha }}
