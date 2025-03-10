@@ -25,13 +25,13 @@ jobs:
         context: ./client
         push: true
         tags:
-          ghcr.io/eascen-templates/template-image-client:latest
-          ghcr.io/eascen-templates/template-image-client:${{ github.sha }}
+          ghcr.io/eascen/template-image-client:latest
+          ghcr.io/eascen/template-image-client:${{ github.sha }}
     - name: Build and push API Docker image
       uses: docker/build-push-action@v6
       with:
         context: ./api
         push: true
         tags:
-          ghcr.io/eascen-templates/template-image-api:latest
-          ghcr.io/eascen-templates/template-image-api:${{ github.sha }}
+          ghcr.io/eascen/template-image-api:latest
+          ghcr.io/eascen/template-image-api:${{ github.sha }}
