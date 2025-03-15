@@ -93,6 +93,7 @@ services:
   
 volumes:
   pg_data:
+  
 networks:
   template-example:
     driver: bridge
