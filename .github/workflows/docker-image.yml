@@ -25,7 +25,7 @@ jobs:
         context: ./client
         target: production
         build-args: |
-          VITE_API_URL=${{ secrets.API_URL }}
+          VITE_API_URL=https://api.${{ secrets.DOMAIN_NAME }}
         push: true
         tags: |
           ghcr.io/eascen-templates/template-image-client:latest
