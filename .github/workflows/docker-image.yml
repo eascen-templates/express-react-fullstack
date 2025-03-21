@@ -13,12 +13,14 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+
     - name: Login to the Container registry
       uses: docker/login-action@v3
       with: 
         registry: https://ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GHCR_TOKEN }}
+
     - name: Build and push Client Docker image
       uses: docker/build-push-action@v6
       with:
@@ -30,6 +32,7 @@ jobs:
         tags: |
           ghcr.io/eascen-templates/template-image-client:latest
           ghcr.io/eascen-templates/template-image-client:${{ github.sha }}
+
     - name: Build and push API Docker image
       uses: docker/build-push-action@v6
       with:
@@ -39,3 +42,13 @@ jobs:
         tags: |
           ghcr.io/eascen-templates/template-image-api:latest
           ghcr.io/eascen-templates/template-image-api:${{ github.sha }}
+ 
+    - name: Build and push Migration Docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: ./api
+        file: Dockerfile.migrate
+        push: true
+        tags: |
+          ghcr.io/eascen-templates/template-image-migrations:latest
+          ghcr.io/eascen-templates/template-image-migrations:${{ github.sha }}

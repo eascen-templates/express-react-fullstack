@@ -1,0 +1,23 @@
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci
+
+COPY ./drizzle.config.ts ./
+COPY ./tsconfig.json ./
+COPY ./src/db ./src/db
+
+RUN echo '#!/bin/sh\n\
+echo "Running database migrations..."\n\
+npm run db:migrate\n\
+echo "Migrations completed successfully"\n\
+' > /app/run-migrations.sh
+
+RUN chmod +x /app/run-migrations.sh
+
+# Set the entrypoint to the migration script
+ENTRYPOINT ["/app/run-migrations.sh"]
