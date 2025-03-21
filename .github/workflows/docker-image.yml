@@ -47,7 +47,7 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         context: ./api
-        file: Dockerfile.migrate
+        file: ./api/Dockerfile.migrate
         push: true
         tags: |
           ghcr.io/eascen-templates/template-image-migrations:latest
