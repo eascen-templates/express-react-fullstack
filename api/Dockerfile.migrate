@@ -11,13 +11,5 @@ COPY ./drizzle.config.ts ./
 COPY ./tsconfig.json ./
 COPY ./src/db ./src/db
 
-RUN echo '#!/bin/sh\n\
-echo "Running database migrations..."\n\
-npm run db:migrate\n\
-echo "Migrations completed successfully"\n\
-' > /app/run-migrations.sh
-
-RUN chmod +x /app/run-migrations.sh
-
 # Set the entrypoint to the migration script
-ENTRYPOINT ["/app/run-migrations.sh"]
+CMD ["sh", "-c", "echo 'Running database migrations...' && npm run db:migrate && echo 'Migrations completed successfully'"]
